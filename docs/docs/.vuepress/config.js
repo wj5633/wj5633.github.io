@@ -62,6 +62,7 @@ module.exports = ctx => ({
       type: 'vue',
       before: '<pre class="vue-container"><code>',
       after: '</code></pre>',
+      
     }],
     ['container', {
       type: 'upgrade',

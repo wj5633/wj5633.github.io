@@ -2,60 +2,57 @@
 sidebar: auto
 ---
 
-# Local Development
+# 本地开发
 
-## Informations
+## 摘要
 
-If you here youh may be intereset of improve core VuePress.
+如果你看到此处，你可能会对改进 VuePress 核心感兴趣。
 
-VuePress is using a combo with [Yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) and [Lerna](https://github.com/lerna/lerna).
+VuePress 正在使用包含了 [Yarn Workspaces](https://yarnpkg.com/zh-Hans/docs/workspaces/) 和 [Lerna](https://github.com/lerna/lerna) 的一个组合。
 
-## Init packages
+## 初始化 package
 
 ```bash
- yarn bootstrap // it will run and install into the root all packages subfolders
+ yarn bootstrap // 它将运行并安装根目录和所有 package 的依赖
 ```
 
-`yarn bootstrap` will use hoisting. What does it mean for you ?
+`yarn bootstrap` 将使用 `hoist`。它对你意味着什么？
 
-It will regroup all dependencies in the workspace root and link all packages.
+它将重组工作空间根目录中的所有依赖项并链接所有 package。
 
-Check the link by running the following command:
+通过运行以下命令来检查链接：
 
 ```bash
     ls -la node_modules/@vuepress
 ```
 
-You will all symlinks
+你将全部链接完成。
 
-:::warning
-You have to take care to declare all dependencies inside subFolders package.json. When publish the lib if dependencie from a package is not declare it will just not work.
+::: warning
+你必须注意应在子文件夹的 package.json 中声明所有依赖项。如果未声明 package 的 dependencies，则在发布到 npm 时将无法正常工作。
 :::
 
-:::warning
-There is a special package you should have a look is @vuepress/shared-utils that are in typescript.
+::: warning
+你应该留意一个特殊的 package `@vuepress/shared-utils`，它是由 Typescript 编写的。
 :::
 
-After install everything it will run `yarn tsc`. This command will tell to @vuepress/shared-utils workspace to compile his js.
+安装完所有依赖后，它将运行 `yarn tsc` 。该命令将告诉 workspace 的 `@vuepress/shared-utils` 来编译他的 js。
 
-:::warning
-From here if you are making change inside this package you will have to
-run `yarn tsc` all the time or run in separate shell `yarn run tsc -w`. This will re run tsc at any change from shared-utils
+::: warning
+从这里开始，如果你要在此 package 中进行更改，则必须始终运行 `yarn tsc` 或在单独的终端中运行 `yarn run tsc -w` 。当检测到 shared-utils 有任何更改时，它将重新运行 tsc。
 :::
 
-## Link
+## 链接
 
-Good from here you have everything ready. You need to link VuePress to your project.
+从这里开始就很不错了，你已经准备就绪。你需要将 VuePress 链接到你的项目。
 
 ```bash
 yarn register-vuepress
 ```
 
-You will have something like this: `success Registered "vuepress".`
+你将看到类似这样的内容：`success Registered "vuepress".`
 
-It will link the package VuePress from `packages/vuepress`. You will have access to VuePress cli and packages.
-
-They are declared in the `packages/vuepress/package.json`
+它将链接来自 `packages/vuepress` 的 VuePress 包。 你将可以访问 VuePress 脚手架和其他内部的 packages，他们在 `packages/vuepress/package.json` 被声明。
 
 ```js
 {
@@ -68,34 +65,33 @@ They are declared in the `packages/vuepress/package.json`
 }
 ```
 
-Now go to your project and run `yarn link vuepress`.
+现在转到你的项目并运行 `yarn link vuepress`。
 
-You should have it `success Using linked package for "vuepress".`
+你应该得到 `success Using linked package for "vuepress".`
 
-## Unlink
+## 取消链接
 
-You may want to unlink everything. For it in the workspace root folder. Run
+你可能想要取消所有链接。在工作区根文件夹中，运行：
 
 ```bash
 yarn unregister-vuepress
 ```
 
-Now you can run `yarn unlink vuepress` into your project folder.
+现在你可以在你的项目文件夹中运行 `yarn unlink vuepress` 。
 
-If everything work properly you should have an error telling you there is no package found called vuepress, if you run `yarn link vuepress` in you project folder.
+如果一切运行正常，当你在你的项目文件夹中再次运行 `yarn link vuepress` ，你应该获得一个错误提示你找不到名为 vuepress 的软件包。
 
-## BUGS / QA
+## BUGS / 问答
 
-You will maybe find some difficulty with link. If you encounter something like `There's already a package called "vuepress" registered`.
-You already have VuePress registered:
+你可能会发现链接有些困难。如果你触发了一些类似 `There's already a package called "vuepress" registered` 之类的内容，你已经注册了 VuePress ：
 
-- If you already link VuePress from [Link](#link). It’s totally fine. If you make changes because it is symlink you dont have to re run something. You will have to rerun yarn tsc if you update shared-utils package. Nothing more
-- If you didn’t do anything. You already have VuePress linked somewhere. What you have to do is deleting folder where you ran `yarn link` or `yarn unlink`.
+- 如果你已经从[链接](#链接)链接了 VuePress ，就已经很好了。如果你进行更改，由于它是 symbolic link，你不必重新运行任何指令。只有当你更新 shared-utils 软件包时，才必须重新运行 `yarn tsc` ，仅此而已。
+- 如果你什么也没做。那么你已经将 VuePress 链接到某处。你要做的就是删除你运行 `yarn link` 或 `yarn unlink` 的文件夹。
 
-## More
+## 更多相关
 
-You will have interesting commands available:
+你可以使用更多有趣的命令：
 
-- `yarn packages:list` will list you every packages present and their versions [More...](https://github.com/lerna/lerna/tree/master/commands/list#readme)
-- `yarn packages:changed` will tell you which package will be affect by the next lerna publish / version [More...](https://github.com/lerna/lerna/tree/master/commands/changed#readme)
-- `yarn packages:diff` will show you all diff from last release [More...](https://github.com/lerna/lerna/tree/master/commands/diff#readme)
+- `yarn packages:list` 将列出所有存在的 packages 及其版本 [更多](https://github.com/lerna/lerna/tree/master/commands/list#readme)
+- `yarn packages:changed` 会告诉你哪些 packages 将受到下一个 lerna 的 发布/版本 的影响 [更多](https://github.com/lerna/lerna/tree/master/commands/changed#readme)
+- `yarn packages:diff` 将显示上一个版本依赖所有差异 [更多](https://github.com/lerna/lerna/tree/master/commands/diff#readme)
